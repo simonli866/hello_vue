@@ -1,10 +1,6 @@
 <template>
-        <!-- html -->
-        <div class="app">
-                <h1>你好啊</h1>
-                <Person />
-
-        </div>
+        <Person />
+        <Person/>
 </template>
 
 <script lang="ts">
@@ -21,12 +17,3 @@ export default {
 }
 </script>
 
-<style>
-        /* css */
-        .app{
-                padding: 10px;
-                background-color: #f5f5f5;
-                box-shadow: 0 0 10px rgba(0,0,0,0.1);
-
-        }
-</style>

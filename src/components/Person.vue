@@ -14,22 +14,34 @@
 export default {
         // 组件名
         name: "Person",
-        data() {
-                return {
-                        name: "zhangsan",
-                        age: 18,
-                        tel: "xxxxxxx"
-                }
+        beforeCreate() {
+                console.log("Person组件创建前");
         },
-        methods: {
-                changeName() {
-                        this.name = "lisi"
-                },
-                changeAge() {
-                        this.age +=1
-                },
-                showTel() {
-                        alert(this.tel)
+        setup() {
+                console.log("Person组件创建后");
+                // 数据
+                // vue3中弱化了this，此时name，age，tel都不是响应式的
+                let name = "张三" 
+                // 此时的那么不是响应式的
+                let age = 18
+                let tel = "13333333"
+                // 方法
+                function changeName() {
+                        name = "李四"
+                }
+                function changeAge() {
+                        age +=1
+                }
+                function showTel() {
+                        alert(tel)
+                }
+                return {
+                        name,
+                        age,
+                        tel,
+                        changeName,
+                        changeAge,
+                        showTel
                 }
         }
 }
