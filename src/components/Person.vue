@@ -35,14 +35,17 @@ export default {
                 function showTel() {
                         alert(tel)
                 }
-                return {
-                        name,
-                        age,
-                        tel,
-                        changeName,
-                        changeAge,
-                        showTel
-                }
+                // return {
+                //         name,
+                //         age,
+                //         tel,
+                //         changeName,
+                //         changeAge,
+                //         showTel
+                // }
+
+                // setup的返回值也可以是一个渲染函数
+                return  ()=> "haha"
         }
 }
 </script>
