@@ -1,10 +1,12 @@
 <template>
         <!-- html -->
         <div class="person">
-                <h2>姓名：{{ name }}</h2>
-                <h2>age: {{ age }}</h2>
-                <button @click="changeAge">change age</button>
-                <button @click="changeName">change name</button>
+                姓：<input type="text" v-model="firstName">
+                名：<input type="text" v-model="lastName">
+                全名：<span>{{ fullName }}</span>
+                全名：<span>{{ fullName }}</span>
+                全名：<span>{{ fullName }}</span>
+                <button @click="changeFullName">改变全名</button>
         </div>
 </template>
 
@@ -16,37 +18,30 @@ export default {
 };
 </script> -->
 <script lang="ts" setup name="Person">
-import { reactive, toRef, toRefs } from 'vue';
-let person = reactive({
-        name: '张三',
-        age: 18,
-        sex: '男',
-        hobby: ['打篮球', '踢足球', '打羽毛球'],
-        address: {
-                province: '北京',
-                city: '北京',
-                street: '东城'
+import { computed, ref } from "vue";
+let firstName = ref("张")
+let lastName = ref("小")
+// fullName 是被定义为了一个计算属性，且是只读的
+// let fullName = computed(() => {
+//         console.log("计算属性被调用")
+//         return firstName.value.slice(0, 1).toUpperCase() + lastName.value.slice(1) + lastName.value
+// })
+// fullName 是被定义为了一个计算属性，且是可写的
+let fullName = computed({
+        get() {
+                console.log("计算属性被调用")
+                return firstName.value.slice(0, 1).toUpperCase() + lastName.value.slice(1) + lastName.value
         },
-        say: function () {
-                console.log('我是' + this.name + ',今年' + this.age + '岁,性别' + this.sex)
-
+        set(newValue) {
+                const [str1, str2] = newValue.split("-")
+                firstName.value = str1
+                lastName.value = str2
+                console.log(newValue)
         }
 })
 
-let { name, age } = toRefs(person)
-let x = toRefs(person)
-
-let nl = toRef(person, 'name')
-console.log(nl.value)
-
-console.log(x)
-function changeAge() {
-        age.value += 1
-        console.log(age)
-}
-function changeName() {
-        name.value += '~'
-        console.log(name)
+function changeFullName() {
+        fullName.value = "li-si"
 }
 </script>
 
