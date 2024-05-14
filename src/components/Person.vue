@@ -22,9 +22,14 @@ function changeSum() {
         sum.value++;
 }
 
-watch(sum, (newValue, oldValue) => {
+const stopWatch = watch(sum, (newValue, oldValue) => {
         console.log("sum变化了", newValue, oldValue);
+        if (newValue > 10) {
+                stopWatch();
+        }
 })
+
+console.log(stopWatch)
 </script>
 
 <style scoped>
