@@ -1,15 +1,10 @@
 <template>
         <!-- html -->
         <div class="person">
-                <h2>一辆{{ car.brand }}车，价值{{ car.price }}元</h2>
-                <button @click="changeBrand">修改车商</button>
-                <button @click="changePrice">修改车价</button>
-                <button @click="changeCar">修改车</button>
-                <br />
-                <h2>
-                        当前求和为：{{ sum }}
-                </h2>
-                <button @click="changeSum">修改sum</button>
+                <h2>姓名：{{ name }}</h2>
+                <h2>age: {{ age }}</h2>
+                <button @click="changeAge">change age</button>
+                <button @click="changeName">change name</button>
         </div>
 </template>
 
@@ -21,38 +16,37 @@ export default {
 };
 </script> -->
 <script lang="ts" setup name="Person">
-import { reactive, ref } from "vue";
-// 数据
-let car = ref({
-        brand: "benz",
-        price: 100
+import { reactive, toRef, toRefs } from 'vue';
+let person = reactive({
+        name: '张三',
+        age: 18,
+        sex: '男',
+        hobby: ['打篮球', '踢足球', '打羽毛球'],
+        address: {
+                province: '北京',
+                city: '北京',
+                street: '东城'
+        },
+        say: function () {
+                console.log('我是' + this.name + ',今年' + this.age + '岁,性别' + this.sex)
+
+        }
 })
-let games = reactive([
-        { id: "assss", name: "王者荣耀" },
-        { id: "fasdfsd", name: "原神" },
-        { id: "asdfasdf", name: "绝地求生" },
-])
 
-let sum = ref(0)
+let { name, age } = toRefs(person)
+let x = toRefs(person)
 
-function changeBrand() {
-        car.value.brand = "bmw";
+let nl = toRef(person, 'name')
+console.log(nl.value)
+
+console.log(x)
+function changeAge() {
+        age.value += 1
+        console.log(age)
 }
-function changePrice() {
-        car.value.price += 20;
-        sum = ref(9)
-}
-function changeCar() {
-        // car = reactive({ brand: "bmw", price: 200 })
-        // Object.assign(car, { brand: "bmw", price: 200 })
-        car.value = { brand: "bmw", price: 200 }
-}
-function changeFirstGame() {
-        games[0].name = "欧洲杯"
-}
-function changeSum() {
-        sum.value += 1;
-        sum = ref(6)
+function changeName() {
+        name.value += '~'
+        console.log(name)
 }
 </script>
 
