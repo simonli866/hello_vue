@@ -1,12 +1,14 @@
 <template>
         <!-- html -->
         <div class="person">
-                <h2>情况2:监视对象类型</h2>
-                <h2>姓名:{{ person.name }}</h2>
+                <h2>姓名：{{ person.name }}</h2>
                 <h2>年龄：{{ person.age }}</h2>
+                <h2>汽车：{{ person.car.c1 }}、{{ person.car.c2 }}</h2>
                 <button @click="changeName">修改姓名</button>
                 <button @click="changeAge">修改年龄</button>
-                <button @click="changePerson">修改对象</button>
+                <button @click="changeC1">修改第一台汽车</button>
+                <button @click="changeC2">修改第二台汽车</button>
+                <button @click="changeCar">修改整个汽车</button>
         </div>
 </template>
 
@@ -18,42 +20,60 @@ export default {
 };
 </script> -->
 <script lang="ts" setup name="Person">
-import { watch, ref } from "vue";
-let person = ref({
-        name: "张三",
+import { reactive, watch } from 'vue';
+
+let person = reactive({
+        name: '张三',
         age: 18,
-        sex: "男",
-        address: "北京",
+        sex: '男',
+        car: {
+                c1: "奔驰",
+                c2: "宝马"
+        }
+
 });
+
 function changeAge() {
-        person.value.age += 1;
+        person.age += 1;
 }
 function changeName() {
-        person.value.name += "~";
+        person.name += "~";
 }
 
-
-function changePerson() {
-        person.value = {
-                name: "李四",
-                age: 20,
-                sex: "女",
-                address: "上海",
-        };
+function changeC1() {
+        person.car.c1 = "奔驰E级";
 }
 
-// 监视，情况一：监视ref定义的对象类型数据，监视的是对象的地址值，若想监视对象内部的属性，需要使用deep:true
-// watch(person, (newValue, oldValue) => {
-//         console.log("newValue", newValue);
-//         console.log("oldValue", oldValue);
-// }, {deep:true})
-// watch 的第三个参数是配置对象
-// watch 的第二个参数是监视的回调
-// watch 的第一个参数是监视的对象
-watch(person, (newValue, oldValue) => {
-        console.log("newValue", newValue);
-        console.log("oldValue", oldValue);
-}, { deep: true, immediate: true })
+function changeC2() {
+        person.car.c2 = "奔驰E级";
+}
+
+function changeCar() {
+        person.car = {
+                c1: "奔驰E级",
+                c2: "宝马X5"
+        }
+}
+// 监视。情况四：监视响应式对象中的属性是基本类型的，需要写成函数式
+// watch(() => { return person.name }, (newValue, oldValue) => {
+//         console.log(newValue, oldValue)
+// })
+// 另一种写法
+// watch(() => person.name, (newValue, oldValue) => {
+//         console.log(newValue, oldValue)
+// })
+// 监视。这么写：监视car中的属性
+// watch(person.car, (newValue, oldValue) => {
+//         console.log(newValue, oldValue)
+// })
+// 这么写：监视car对象本身
+// watch(()=>person.car, (newValue, oldValue) => {
+//         console.log(newValue, oldValue)
+// })
+// 可以同时兼顾
+watch(() => person.car, (newValue, oldValue) => {
+        console.log(newValue, oldValue)
+}, { deep: true })
 </script>
 
 <style scoped>
