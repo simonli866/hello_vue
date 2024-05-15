@@ -1,6 +1,7 @@
 <template>
         <!-- html -->
         <div class="person">
+                <!-- 情况五：监视多个数据 -->
                 <h2>姓名：{{ person.name }}</h2>
                 <h2>年龄：{{ person.age }}</h2>
                 <h2>汽车：{{ person.car.c1 }}、{{ person.car.c2 }}</h2>
@@ -54,24 +55,9 @@ function changeCar() {
                 c2: "宝马X5"
         }
 }
-// 监视。情况四：监视响应式对象中的属性是基本类型的，需要写成函数式
-// watch(() => { return person.name }, (newValue, oldValue) => {
-//         console.log(newValue, oldValue)
-// })
-// 另一种写法
-// watch(() => person.name, (newValue, oldValue) => {
-//         console.log(newValue, oldValue)
-// })
-// 监视。这么写：监视car中的属性
-// watch(person.car, (newValue, oldValue) => {
-//         console.log(newValue, oldValue)
-// })
-// 这么写：监视car对象本身
-// watch(()=>person.car, (newValue, oldValue) => {
-//         console.log(newValue, oldValue)
-// })
-// 可以同时兼顾
-watch(() => person.car, (newValue, oldValue) => {
+// 监视。情况五：监视多个数据
+
+watch([() => person.name, () => person.car.c1], (newValue, oldValue) => {
         console.log(newValue, oldValue)
 }, { deep: true })
 </script>
