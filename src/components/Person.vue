@@ -1,66 +1,51 @@
 <template>
         <!-- html -->
         <div class="person">
-                <!-- 情况五：监视多个数据 -->
-                <h2>姓名：{{ person.name }}</h2>
-                <h2>年龄：{{ person.age }}</h2>
-                <h2>汽车：{{ person.car.c1 }}、{{ person.car.c2 }}</h2>
-                <button @click="changeName">修改姓名</button>
-                <button @click="changeAge">修改年龄</button>
-                <button @click="changeC1">修改第一台汽车</button>
-                <button @click="changeC2">修改第二台汽车</button>
-                <button @click="changeCar">修改整个汽车</button>
+                <h2>需求：当水温达到60度，或水温达到80cm时，给服务器发请求</h2>
+                <h2>当前水温：{{ temp }}</h2>
+                <h2>当前水位：{{ height }}</h2>
+                <button @click="changeTemp">水温+1</button>
+                <button @click="changeHeight">水位+10</button>
         </div>
 </template>
 
 <!-- <script lang="ts">
 // JS 或TS
-export default {
+export default {-
         // 组件名
         name: "Person",
 };
 </script> -->
 <script lang="ts" setup name="Person">
-import { reactive, watch } from 'vue';
+import { ref, watch, watchEffect } from 'vue';
+// 数据
+let temp = ref(0);
+let height = ref(10);
 
-let person = reactive({
-        name: '张三',
-        age: 18,
-        sex: '男',
-        car: {
-                c1: "奔驰",
-                c2: "宝马"
+function changeTemp() {
+        temp.value += 10;
+}
+
+function changeHeight() {
+        height.value += 10;
+}
+
+// watch 实现
+// watch([temp, height], (value) => {
+//         // 从 value 中获取最新的水温，最新的水位
+//         let [newTemp, newHeight] = value
+//         if (newTemp >= 60 || newHeight >= 80) {
+//                 console.log("给服务器发请求")
+//         }
+// })
+
+// watchEffect实现
+watchEffect(() => {
+        if (temp.value >= 60 || height.value >= 80) {
+                console.log("给服务器发请求")
         }
+})
 
-});
-
-function changeAge() {
-        person.age += 1;
-}
-function changeName() {
-        person.name += "~";
-}
-
-function changeC1() {
-        person.car.c1 = "奔驰E级";
-}
-
-function changeC2() {
-        person.car.c2 = "奔驰E级";
-}
-
-function changeCar() {
-        person.car = {
-                c1: "奔驰E级",
-                c2: "宝马X5"
-        }
-
-}
-// 监视。情况五：监视多个数据
-
-watch([() => person.name, () => person.car.c1], (newValue, oldValue) => {
-        console.log(newValue, oldValue)
-}, { deep: true })
 </script>
 
 <style scoped>
