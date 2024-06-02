@@ -1,11 +1,10 @@
 <template>
         <!-- html -->
         <div class="person">
-                <h2>需求：当水温达到60度，或水温达到80cm时，给服务器发请求</h2>
-                <h2>当前水温：{{ temp }}</h2>
-                <h2>当前水位：{{ height }}</h2>
-                <button @click="changeTemp">水温+1</button>
-                <button @click="changeHeight">水位+10</button>
+                <h1>中国</h1>
+                <h2 ref="title">北京</h2>
+                <h3>天安门</h3>
+                <button @click="showLog">输出H2元素</button>
         </div>
 </template>
 
@@ -17,37 +16,20 @@ export default {-
 };
 </script> -->
 <script lang="ts" setup name="Person">
-import { ref, watch, watchEffect } from 'vue';
-// 数据
-let temp = ref(0);
-let height = ref(10);
+import { ref, defineExpose } from 'vue';
+// 创建一个title 用于存储ref标记的内容
+let title = ref()
+let a = ref(0)
+let b = ref(1)
+let c = ref(2)
 
-function changeTemp() {
-        temp.value += 10;
+defineExpose({ a, b, c })
+function showLog() {
+        console.log(title.value)
 }
-
-function changeHeight() {
-        height.value += 10;
-}
-
-// watch 实现
-// watch([temp, height], (value) => {
-//         // 从 value 中获取最新的水温，最新的水位
-//         let [newTemp, newHeight] = value
-//         if (newTemp >= 60 || newHeight >= 80) {
-//                 console.log("给服务器发请求")
-//         }
-// })
-
-// watchEffect实现
-watchEffect(() => {
-        if (temp.value >= 60 || height.value >= 80) {
-                console.log("给服务器发请求")
-        }
-})
-
 </script>
 
+<!-- scoped 局部样式 必须加 -->
 <style scoped>
 /* css */
 .app {
